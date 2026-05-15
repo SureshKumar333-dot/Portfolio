@@ -1,0 +1,283 @@
+/* ═══════════════════════════════════════════════════════════
+   ABOUT SECTION — Adaptive opposite-colour glow
+   The image is warm orange + teal.
+   JS samples it, inverts RGB → cool blue/magenta glow applied
+   via --glow-r / --glow-g / --glow-b CSS vars on #about.
+   Fallback: --glow-r:80  --glow-g:120  --glow-b:255 (blue)
+═══════════════════════════════════════════════════════════ */
+
+#about {
+  --glow-r: 80;
+  --glow-g: 120;
+  --glow-b: 255;
+}
+
+.about { background: var(--bg2); }
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 100px;
+  align-items: center;
+  margin-top: 70px;
+}
+
+/* ── IMAGE COLUMN ── */
+.visual { position: relative; }
+
+.imageWrap {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  /* Border uses the adaptive opposite colour */
+  border: 1px solid rgba(
+    var(--glow-r), var(--glow-g), var(--glow-b), 0.25
+  );
+}
+
+/* Animated glow rings — opposite colour from image */
+.glowRing1,
+.glowRing2,
+.glowRing3 {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.glowRing1 {
+  box-shadow:
+    inset 0 0 60px rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.12),
+    0 0 80px rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.18);
+  animation: glowPulse1 4s ease-in-out infinite;
+}
+.glowRing2 {
+  box-shadow:
+    inset 0 0 120px rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.07);
+  animation: glowPulse2 6s ease-in-out infinite 1s;
+}
+.glowRing3 {
+  /* Accent line at top */
+  border-top: 2px solid rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.5);
+  border-left: 2px solid rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.2);
+  animation: glowPulse3 3s ease-in-out infinite 0.5s;
+}
+
+@keyframes glowPulse1 {
+  0%, 100% { opacity: 0.7; }
+  50%       { opacity: 1; }
+}
+@keyframes glowPulse2 {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.9; }
+}
+@keyframes glowPulse3 {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+/* Scan-line texture */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.06) 3px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+}
+
+/* Corner frame brackets */
+.corner {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-color: rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.7);
+  border-style: solid;
+  z-index: 5;
+  transition: border-color 1s ease;
+}
+.tl { top: 10px;    left: 10px;    border-width: 2px 0 0 2px; }
+.tr { top: 10px;    right: 10px;   border-width: 2px 2px 0 0; }
+.bl { bottom: 10px; left: 10px;    border-width: 0 0 2px 2px; }
+.br { bottom: 10px; right: 10px;   border-width: 0 2px 2px 0; }
+
+/* The actual photo */
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  position: relative;
+  z-index: 1;
+  /* Opposite hue-rotate: image is ~20deg warm → shift to cool end */
+  filter: hue-rotate(0deg) saturate(1.05) brightness(0.97);
+  transition: filter 0.6s ease, transform 0.6s ease;
+}
+.imageWrap:hover .photo {
+  /* On hover: push further in the opposite direction */
+  filter: hue-rotate(-40deg) saturate(1.15) brightness(1.02);
+  transform: scale(1.025);
+}
+
+/* Bottom gradient fade into bg */
+.imgFade {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 35%;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 10, 0.9) 0%,
+    transparent 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Floating name tag at bottom */
+.nameTag {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(5, 5, 5, 0.7);
+  border: 1px solid rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.35);
+  backdrop-filter: blur(8px);
+  padding: 7px 16px;
+  white-space: nowrap;
+}
+.nameTagDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(var(--glow-r), var(--glow-g), var(--glow-b), 1);
+  animation: blinkDot 1.8s infinite;
+  flex-shrink: 0;
+}
+@keyframes blinkDot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(var(--glow-r),var(--glow-g),var(--glow-b),0.5); }
+  50%       { opacity: 0.6; box-shadow: 0 0 0 5px rgba(var(--glow-r),var(--glow-g),var(--glow-b),0); }
+}
+.nameTag span:last-child {
+  font-size: 0.58rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(var(--glow-r), var(--glow-g), var(--glow-b), 0.9);
+  font-family: 'Space Mono', monospace;
+}
+
+/* Experience badge */
+.expBadge {
+  position: absolute;
+  bottom: -20px;
+  right: -20px;
+  background: var(--g);
+  color: var(--bg);
+  padding: 24px 28px;
+  text-align: center;
+  z-index: 10;
+}
+.expNum {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.expLabel {
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* ── TEXT COLUMN ── */
+.text { padding-bottom: 40px; }
+.text p {
+  font-size: 0.95rem;
+  line-height: 2;
+  color: var(--wd);
+  margin-bottom: 24px;
+  margin-top: 28px;
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+.statBox {
+  border: 1px solid rgba(200, 168, 75, 0.12);
+  padding: 24px 20px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s;
+  cursor: default;
+}
+.statBox::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(200,168,75,0.05), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.statBox:hover { border-color: rgba(200,168,75,0.4); }
+.statBox:hover::before { opacity: 1; }
+.statN {
+  font-family: 'Space Mono', monospace;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--g);
+  line-height: 1;
+}
+.statL {
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--wd);
+  margin-top: 8px;
+}
+
+.toolsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 36px;
+}
+.toolChip {
+  padding: 6px 16px;
+  border: 1px solid rgba(200,168,75,0.2);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--g);
+  font-family: 'Space Mono', monospace;
+  transition: all 0.3s;
+  cursor: none;
+}
+.toolChip:hover { background: var(--g); color: var(--bg); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 60px;
+  }
+  .imageWrap { max-width: 100%; }
+  .expBadge { right: 0; }
+  .statsRow { grid-template-columns: 1fr 1fr; }
+}

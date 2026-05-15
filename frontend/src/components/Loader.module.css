@@ -1,0 +1,40 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  transition: opacity 0.6s, visibility 0.6s;
+}
+.loader.done {
+  opacity: 0;
+  visibility: hidden;
+}
+.num {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(4rem, 12vw, 8rem);
+  font-weight: 700;
+  color: var(--g);
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.barWrap {
+  width: 200px;
+  height: 1px;
+  background: rgba(200, 168, 75, 0.2);
+}
+.bar {
+  height: 100%;
+  background: var(--g);
+  transition: width 0.05s;
+}
+.label {
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--g3);
+}

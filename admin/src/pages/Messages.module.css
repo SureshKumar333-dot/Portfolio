@@ -1,0 +1,107 @@
+.page { height: 100%; }
+.header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; }
+.title { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; }
+.filters { display: flex; gap: 4px; }
+.filter {
+  padding: 8px 18px;
+  background: transparent;
+  border: 1px solid rgba(200,168,75,0.15);
+  color: var(--wd);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'Space Grotesk', sans-serif;
+  transition: all 0.2s;
+}
+.filter:hover { border-color: rgba(200,168,75,0.4); color: var(--w); }
+.filter.active { background: var(--g); color: var(--bg); border-color: var(--g); font-weight: 700; }
+
+.split { display: grid; grid-template-columns: 340px 1fr; gap: 3px; height: calc(100vh - 180px); }
+
+.list { overflow-y: auto; border: 1px solid rgba(200,168,75,0.1); }
+.item {
+  padding: 18px 20px;
+  border-bottom: 1px solid rgba(200,168,75,0.07);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.item:hover { background: rgba(200,168,75,0.04); }
+.item.selected { background: rgba(200,168,75,0.07); border-left: 2px solid var(--g); }
+.item.unread { background: rgba(200,168,75,0.03); }
+.itemTop { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
+.itemName { font-size: 0.9rem; font-weight: 600; }
+.item.unread .itemName { color: var(--g); }
+.itemDate { font-size: 0.65rem; color: var(--wd); font-family: 'Space Mono', monospace; }
+.itemEmail { font-size: 0.72rem; color: var(--g3); margin-bottom: 6px; }
+.itemPreview { font-size: 0.78rem; color: var(--wd); line-height: 1.5; margin-bottom: 10px; }
+.itemBadges { display: flex; gap: 6px; flex-wrap: wrap; }
+.badge {
+  font-size: 0.52rem;
+  padding: 3px 8px;
+  border: 1px solid rgba(200,168,75,0.2);
+  color: var(--g3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: 'Space Mono', monospace;
+}
+.replied { border-color: rgba(76,175,80,0.4); color: #4caf50; }
+.newBadge { border-color: var(--g); color: var(--g); }
+
+.detail {
+  border: 1px solid rgba(200,168,75,0.1);
+  padding: 32px 36px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.empty { color: var(--wd); font-size: 0.85rem; padding: 40px 0; text-align: center; width: 100%; }
+.detailHeader { display: flex; justify-content: space-between; align-items: flex-start; }
+.detailName { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+.detailEmail { font-size: 0.85rem; color: var(--g); text-decoration: none; }
+.detailEmail:hover { text-decoration: underline; }
+.detailActions { display: flex; gap: 8px; flex-shrink: 0; }
+.btnPrimary {
+  padding: 10px 20px;
+  background: var(--g);
+  color: var(--bg);
+  border: none;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  transition: background 0.2s;
+}
+.btnPrimary:hover { background: var(--g2); }
+.btnDanger {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid rgba(238,85,85,0.3);
+  color: var(--red);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  transition: all 0.2s;
+}
+.btnDanger:hover { background: rgba(238,85,85,0.1); }
+
+.detailMeta { display: flex; gap: 32px; padding: 20px 0; border-top: 1px solid rgba(200,168,75,0.1); border-bottom: 1px solid rgba(200,168,75,0.1); }
+.metaItem { display: flex; flex-direction: column; gap: 4px; }
+.metaItem span { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--g3); font-family: 'Space Mono', monospace; }
+.metaItem strong { font-size: 0.85rem; }
+
+.bodyLabel { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--g3); font-family: 'Space Mono', monospace; margin-bottom: 14px; }
+.bodyText { font-size: 0.9rem; line-height: 1.9; color: var(--wd); white-space: pre-wrap; }
+
+.replyLink {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 28px;
+  background: var(--bg3);
+  border: 1px solid rgba(200,168,75,0.2);
+  color: var(--g);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  transition: all 0.2s;
+  align-self: flex-start;
+}
+.replyLink:hover { background: rgba(200,168,75,0.08); border-color: var(--g); }

@@ -1,0 +1,14 @@
+{
+  "name": "portfolio-suresh-kumar",
+  "version": "1.0.0",
+  "scripts": {
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:admin": "cd admin && npm run dev",
+    "build:frontend": "cd frontend && npm run build",
+    "build:admin": "cd admin && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

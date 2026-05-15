@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import api from '../lib/api';
+import { submitContact } from '../lib/submitContact';
 import { personalInfo } from '../data/portfolio';
 import styles from './Contact.module.css';
 
@@ -19,12 +19,16 @@ export default function Contact() {
     setStatus('loading');
     setError('');
     try {
-      await api.post('/api/contact', form);
+      await submitContact(form);
       setStatus('success');
       setForm(initialForm);
     } catch (err) {
       setStatus('error');
-      setError(err.response?.data?.message || 'Something went wrong. Please try again.');
+      if (err.code === 'NO_HANDLER') {
+        setError(`Form delivery is not configured yet. Email me directly at ${personalInfo.email}`);
+      } else {
+        setError(err.response?.data?.message || err.message || 'Something went wrong. Please try again.');
+      }
     }
   };
 
